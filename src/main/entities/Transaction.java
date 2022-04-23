@@ -65,6 +65,7 @@ public abstract class Transaction {
                 "id=" + id +
                 ", amount=" + amount +
                 ", date=" + date +
+                ", type=" + this.getTransactionType() +
                 ", account=" + account +
                 '}';
     }
