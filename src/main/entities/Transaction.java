@@ -11,6 +11,8 @@ public abstract class Transaction {
     private Double amount;
     private Date date;
     private BankAccount account;
+    private Double oldBalance;
+    private Double newBalance;
 
     public Transaction(Long id, Double amount, BankAccount account) throws NegativeTransactionAmountException {
         if (amount > 0) {
@@ -18,6 +20,7 @@ public abstract class Transaction {
             this.amount = amount;
             this.date = Date.from(Instant.now());
             this.account = account;
+            this.oldBalance = account.getBalance();
         }
         else throw new NegativeTransactionAmountException();
     }
@@ -55,6 +58,22 @@ public abstract class Transaction {
         this.account = account;
     }
 
+    public Double getOldBalance() {
+        return oldBalance;
+    }
+
+    public void setOldBalance(Double oldBalance) {
+        this.oldBalance = oldBalance;
+    }
+
+    public Double getNewBalance() {
+        return newBalance;
+    }
+
+    public void setNewBalance(Double newBalance) {
+        this.newBalance = newBalance;
+    }
+
     public abstract void execute() throws InsufficientBalanceException;
     public abstract String getTransactionType();
 
@@ -65,8 +84,9 @@ public abstract class Transaction {
                 "id=" + id +
                 ", amount=" + amount +
                 ", date=" + date +
-                ", type=" + this.getTransactionType() +
                 ", account=" + account +
+                ", oldBalance=" + oldBalance +
+                ", newBalance=" + newBalance +
                 '}';
     }
 }

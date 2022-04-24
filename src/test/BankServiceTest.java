@@ -11,9 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class BankServiceTest {
@@ -62,12 +60,12 @@ public class BankServiceTest {
     public void transactionHistoryTest() throws NegativeTransactionAmountException, InsufficientBalanceException {
         bankAccountService.deposit(testClient,1000.);
         bankAccountService.withdraw(testClient,500.);
+        assertAll(
+                () -> assertEquals("Deposit",this.testClient.getBankAccount().getTransactionsHistory().get(0).getTransactionType()),
+                () -> assertEquals("Withdrawal",this.testClient.getBankAccount().getTransactionsHistory().get(1).getTransactionType()),
+                () -> assertEquals(1000.,this.testClient.getBankAccount().getTransactionsHistory().get(0).getAmount()),
+                () -> assertEquals(500.,this.testClient.getBankAccount().getTransactionsHistory().get(1).getAmount())
+        );
 
-        Transaction simpleDeposit = new Deposit(1L, 1000.,testClient.getBankAccount());
-        Transaction simpleWithdrawal = new Withdrawal(2L, 500.,testClient.getBankAccount());
-        ArrayList<Transaction> transactions = new ArrayList<>();
-        transactions.add(simpleDeposit);
-        transactions.add(simpleWithdrawal);
-        assertEquals(transactions.toString(),testClient.getBankAccount().getTransactionsHistory().toString());
     }
 }

@@ -10,13 +10,17 @@ public class Withdrawal extends Transaction {
 
     @Override
     public void execute( ) throws InsufficientBalanceException {
-        if(this.getAccount().getBalance() >= this.getAmount() )
+        if(this.getAccount().getBalance() >= this.getAmount() ) {
             this.getAccount().setBalance(this.getAccount().getBalance() - this.getAmount());
-        else throw new InsufficientBalanceException();
+            this.setNewBalance(this.getAccount().getBalance());
+        }
+        else {
+            throw new InsufficientBalanceException();
+        }
     }
 
     @Override
     public String getTransactionType() {
-        return "withdrawal";
+        return "Withdrawal";
     }
 }

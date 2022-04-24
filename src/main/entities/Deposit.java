@@ -10,6 +10,7 @@ public class Deposit extends Transaction{
     @Override
     public void execute() {
         this.getAccount().setBalance(this.getAccount().getBalance() + this.getAmount());
+        this.setNewBalance(this.getAccount().getBalance());
     }
 
     @Override
